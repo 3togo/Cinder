@@ -1812,6 +1812,11 @@ cairo::SurfaceQuartz createWindowSurface()
 	CGContextScaleCTM( cgContext, 1.0, -1.0 );
 	return cairo::SurfaceQuartz( cgContext, cinder::app::getWindowWidth(), height );
 }
+#else
+cairo::SurfaceGdi createWindowSurface()
+{
+	return cairo::SurfaceGdi( cinder::app::App::get()->getRenderer()->getDc() );
+}
 #endif
 
 /*void Context::glyphExtents( const GlyphArray &glyphs, int num_glyphs, TextExtents *extents )
