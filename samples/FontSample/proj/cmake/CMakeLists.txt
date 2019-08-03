@@ -11,4 +11,6 @@ include( "${CINDER_PATH}/proj/cmake/modules/cinderMakeApp.cmake" )
 ci_make_app(
 	SOURCES     ${APP_PATH}/src/FontSampleApp.cpp
 	CINDER_PATH ${CINDER_PATH}
+    INCLUDES    ${CINDER_PATH}/blocks/Cairo/include
+    
 )
