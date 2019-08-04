@@ -1,7 +1,9 @@
 src_dir=samples
+type=Release
 dirs=$(find $src_dir -maxdepth 1 -type d|sort )
 old_pwd=$PWD
 count=1
+args=$@
 compile_and_build() {
     mdir=$1
     echo "compile and build ${mdir##*/}"
@@ -14,11 +16,12 @@ compile_and_build() {
     [[ ! -d build ]] && mkdir build
     cd build
     if [ ! -f CMakeCache.txt ];  then
-        cmake ..
+        cmake -D CMAKE_BUILD_TYPE=$type ..
     else
-        if [ -z $1 ]; then
-            rm CMakeCache.txt
-            cmake ..
+        if [ -z ${args[1]} ]; then
+            #rm CMakeCache.txt
+            rm * -rf
+            cmake -D CMAKE_BUILD_TYPE=$type ..
         fi
     fi
     make -j $(nproc) &

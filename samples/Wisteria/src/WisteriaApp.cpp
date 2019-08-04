@@ -118,6 +118,7 @@ void WisteriaApp::update()
 void WisteriaApp::draw()
 {
 	cairo::Context ctx( cairo::createWindowSurface() );
+    //cairo::Context ctx( cairo::PatternSurface() );
 	renderScene( mOffscreenContext );
 	ctx.copySurface( mOffscreenBuffer, mOffscreenBuffer.getBounds() );
 }
