@@ -1,7 +1,7 @@
 #include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"
 #include "cinder/BSpline.h"
-#include "cinder/cairo/Cairo.h"
+//#include "cinder/cairo/Cairo.h"
 #include "cinder/ImageIo.h"
 #include "cinder/Utilities.h"
 

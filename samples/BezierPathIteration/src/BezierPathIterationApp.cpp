@@ -86,7 +86,8 @@ void BezierPathIterationApp::draw()
 	gl::translate( mWindowOffset );
 	gl::scale( mWindowScale );
 
-	gl::color( Color( 1.0f, 0.5f, 0.25f ) );
+	gl::color( Color( 1.0f, 0.f, 0.f ) );
+    int i=0;
 	for( auto &pathIt : mPathIters ) {
 		pathIt.mCurrentDistance += 3.0f; // move 3 units along the path
 		float newTime = pathIt.mPathCache.calcTimeForDistance( pathIt.mCurrentDistance );
@@ -94,6 +95,8 @@ void BezierPathIterationApp::draw()
 		
 		gl::drawLine( pathIt.mLastPos, pos );
 		pathIt.mLastPos = pos;
+        console() <<  i << pathIt.mCurrentDistance << endl;
+        i++;
 	}
 }
 
