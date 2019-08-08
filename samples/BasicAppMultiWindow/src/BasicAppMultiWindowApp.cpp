@@ -23,7 +23,7 @@ class BasicAppMultiWindow : public App {
 class WindowData {
   public:
 	WindowData()
-		: mColor( Color( CM_HSV, randFloat(), 0.8f, 0.8f ) ) // a random color
+		: mColor( Color( CM_HSV, randFloat(), randFloat(), 0.8 ) ) // a random color
 	{}
   
 	Color			mColor;
