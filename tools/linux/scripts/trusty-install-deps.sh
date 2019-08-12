@@ -25,6 +25,7 @@ sudo apt-get -y install \
   gstreamer1.0-pulseaudio \
   gstreamer1.0-plugins-bad \
   libboost-filesystem-dev
+  libv4l-dev
 
 # mpg123
 wget https://sourceforge.net/projects/mpg123/files/mpg123/1.22.4/mpg123-1.22.4.tar.bz2/download -O mpg123-1.22.4.tar.bz2

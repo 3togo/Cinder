@@ -1,6 +1,6 @@
 cmake_minimum_required( VERSION 2.8 FATAL_ERROR )
 set( CMAKE_VERBOSE_MAKEFILE ON )
-
+set (OpenGL_GL_PREFERENCE GLVND)
 # Configure the Android toolchain before the project start
 if( CINDER_TARGET )
 	string( TOLOWER "${CINDER_TARGET}" CINDER_TARGET_LOWER )
