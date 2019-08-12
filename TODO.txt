@@ -1,0 +1,7 @@
+/WisteriaApp.cpp:2:10: fatal error: cinder/cairo/Cairo.h: No such file or directory
+ #include "cinder/cairo/Cairo.h"
+          ^~~~~~~~~~~~~~~~~~~~~~
+/Renderer2dApp.cpp:10:10: fatal error: Resources.h: No such file or directory
+ #include "Resources.h"
+          ^~~~~~~~~~~~~
+
