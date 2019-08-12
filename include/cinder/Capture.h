@@ -49,7 +49,7 @@
 #elif defined( CINDER_ANDROID )
 	namespace cinder {
 		class CaptureImplJni;
-	}	
+	}
 #elif defined( CINDER_LINUX )
 	namespace cinder {
 		class CaptureImplLinux;
@@ -151,7 +151,7 @@ class CI_API Capture {
 #elif defined( CINDER_MSW )
 	CaptureImplDirectShow			*mImpl;
 #elif defined( CINDER_ANDROID )
-	CaptureImplJni					*mImpl;		
+	CaptureImplJni					*mImpl;
 #elif defined( CINDER_LINUX )
 	CaptureImplLinux 				*mImpl;
 #endif
