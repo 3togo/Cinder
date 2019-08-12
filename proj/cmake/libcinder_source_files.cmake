@@ -67,6 +67,15 @@ if( NOT CINDER_ANDROID )
 		${CINDER_SRC_DIR}/cinder/Serial.cpp
 		${CINDER_SRC_DIR}/cinder/Capture.cpp
 	)
+
+if( ( NOT CINDER_LINUX ) AND ( NOT CINDER_ANDROID ) )
+	list( APPEND SRC_SET_CINDER
+		${CINDER_SRC_DIR}/cinder/Capture.cpp
+	)
+elseif( NOT CINDER_ANDROID )
+	list( APPEND SRC_SET_CINDER
+		${CINDER_SRC_DIR}/cinder/Serial.cpp
+	)
 endif()
 
 list( APPEND CINDER_SRC_FILES   ${SRC_SET_CINDER} )
