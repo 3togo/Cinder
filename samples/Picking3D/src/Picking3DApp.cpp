@@ -146,13 +146,13 @@ bool Picking3DApp::performPicking( vec3 *pickedPoint, vec3 *pickedNormal )
 
 	// Draw the object space bounding box in yellow. It will not animate,
 	// because animation is done in world space.
-	drawCube( mObjectBounds, Color( 1, 1, 0 ) );
+	drawCube( mObjectBounds, Color( 1, 1, 0 ) );    //yellow
 
 	// Draw the exact bounding box in orange.
-	drawCube( worldBoundsExact, Color( 1, 0.5f, 0 ) );
+	drawCube( worldBoundsExact, Color( 1, 0.5f, 0 ) );  //orange
 
 	// Draw the approximated bounding box in cyan.
-	drawCube( worldBoundsApprox, Color( 0, 1, 1 ) );
+	drawCube( worldBoundsApprox, Color( 0, 1, 1 ) );    //greenish blue
 
 	// Perform fast detection first - test against the bounding box itself.
 	if( ! worldBoundsExact.intersects( ray ) )
@@ -165,6 +165,7 @@ bool Picking3DApp::performPicking( vec3 *pickedPoint, vec3 *pickedNormal )
 	const size_t polycount = mTriMesh->getNumTriangles();
 
 	float distance = 0.0f;
+    bool hit=false;
 	for( size_t i = 0; i < polycount; ++i ) {
 		// Get a single triangle from the mesh.
 		vec3 v0, v1, v2;
@@ -178,7 +179,11 @@ bool Picking3DApp::performPicking( vec3 *pickedPoint, vec3 *pickedNormal )
 		// Test to see if the ray intersects this triangle.
 		if( ray.calcTriangleIntersection( v0, v1, v2, &distance ) ) {
 			// Keep the result if it's closer than any intersection we've had so far.
-			if( distance < result ) {
+			if (distance<=0.0f)
+                continue;
+            
+            hit=true;
+            if( distance < result ) {
 				result = distance;
 
 				// Assuming this is the closest triangle, we'll calculate our normal
@@ -188,8 +193,9 @@ bool Picking3DApp::performPicking( vec3 *pickedPoint, vec3 *pickedNormal )
 		}
 	}
 
-	// Did we have a hit?
-	if( distance > 0 ) {
+    // Did we have a hit?
+	//if( distance > 0 ) {
+    if ( hit ) {
 		// Calculate the exact position of the hit.
 		*pickedPoint = ray.calcPosition( result );
 
