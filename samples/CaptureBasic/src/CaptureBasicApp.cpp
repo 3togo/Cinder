@@ -30,7 +30,9 @@ void CaptureBasicApp::setup()
 	printDevices();
 
 	try {
-		mCapture = Capture::create( 640, 480 );
+		printf("\nStart Create--------\n");
+        mCapture = Capture::create( 1024, 768 );
+        printf("\ndone create---------\n");
 		mCapture->start();
 	}
 	catch( ci::Exception &exc ) {

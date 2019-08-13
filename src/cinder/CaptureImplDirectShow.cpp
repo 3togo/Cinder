@@ -110,7 +110,8 @@ const vector<Capture::DeviceRef>& CaptureImplDirectShow::getDevices( bool forceR
 CaptureImplDirectShow::CaptureImplDirectShow( int32_t width, int32_t height, const Capture::DeviceRef device )
 	: mWidth( width ), mHeight( height ), mCurrentFrame( Surface8u::create( width, height, false, SurfaceChannelOrder::BGR ) ), mDeviceID( 0 )
 {
-	mDevice = device;
+	puts("@CaptureImlDirectShow");
+    mDevice = device;
 	if( mDevice ) {
 		mDeviceID = device->getUniqueId();
 	}

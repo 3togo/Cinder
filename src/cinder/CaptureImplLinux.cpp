@@ -13,7 +13,8 @@ namespace cinder {
 CaptureImplLinux::Device::Device( const std::string &deviceFile ):
 mDeviceFile( deviceFile ), mIsConnected( false )
 {
-	int mDeviceFileDescriptor = v4l2_open( deviceFile.c_str(), O_RDWR );
+	puts("open capture device");
+    int mDeviceFileDescriptor = v4l2_open( deviceFile.c_str(), O_RDWR );
 	if ( mDeviceFileDescriptor >= 0 ) {
 		struct v4l2_capability deviceInfo;
 		int error = v4l2_ioctl( mDeviceFileDescriptor, VIDIOC_QUERYCAP, &deviceInfo );
@@ -36,21 +37,25 @@ mDeviceFileDescriptor( -1 ),
 mRunning( false ), mNewFrameAvailable( false ),
 mDevice( device )
 {
-	// choose first
+	puts("choose first");
+    // choose first
 	if ( !mDevice ) {
 		auto &devices = getDevices();
 		if ( devices.empty() ) {
+            puts("No device found");
 			throw CaptureExcInitFail();
 		} else {
-			mDevice = getDevices()[0];
+			mDevice = getDevices()[1];          // should be smarter to get a working one !!!!!
 		}
 	}
-
+    puts("zzzzzzz");
 	const char *name = mDevice->getUniqueId().c_str();
-
+    puts("xxxxx");
 	// implicty set to blocking io
 	mDeviceFileDescriptor = v4l2_open( name , O_RDWR );
-	if ( mDeviceFileDescriptor < 0 ) {
+	puts("yyyyyyy");
+    if ( mDeviceFileDescriptor < 0 ) {
+        puts("too bad! can't open webcam");
 		throw CaptureExcInitFail();
 	}
 
@@ -93,6 +98,7 @@ mDevice( device )
 				PROT_READ | PROT_WRITE, MAP_SHARED, mDeviceFileDescriptor, buffer.m.offset );
 
 		if ( mRawBuffer[i].data == MAP_FAILED ) {
+            puts("throw error!!!!");
 			throw CaptureExcInitFail();
 
 		} else {
@@ -174,20 +180,22 @@ Surface8uRef CaptureImplLinux::getSurface() const
 
 const std::vector<Capture::DeviceRef>& CaptureImplLinux::getDevices( bool forceRefresh  )
 {
-	static std::vector<Capture::DeviceRef>	devices;
+	puts("@const std::vector<Capture::DeviceRef>& CaptureImplLinux::getDevices");
+    static std::vector<Capture::DeviceRef>	devices;
 
 	if ( forceRefresh || devices.empty() ) {
 		devices.clear();
-
 		for ( fs::directory_iterator it( "/dev" ); it != fs::directory_iterator(); ++it ) {
 			auto deviceFile = it->path().string();
-			if ( deviceFile.find( "video" ) != std::string::npos ) {
+            //std::cout << deviceFile << std::endl; 
+			if ( deviceFile.find( "video" ) != std::string::npos ) {        // means found a matching
+                std::cout << "(" << deviceFile << ")" << std::endl;
 				devices.emplace_back( std::make_shared<CaptureImplLinux::Device>( deviceFile ) );
 			}
 		}
 
 	}
-
+    puts("going to leave");
 	return devices;
 }
 

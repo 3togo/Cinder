@@ -68,7 +68,10 @@ class CI_API Capture {
 	typedef std::shared_ptr<Device> DeviceRef;
 
 	//! Creates a new Capture requesting (but not promising) a resolution of \a width x \a height pixels.
-	static CaptureRef	create( int32_t width, int32_t height, const DeviceRef device = DeviceRef() ) { return CaptureRef( new Capture( width, height, device ) ); }
+	static CaptureRef	create( int32_t width, int32_t height, const DeviceRef device = DeviceRef() ) { 
+        puts("@capture.h create captureRef");
+        return CaptureRef( new Capture( width, height, device ) ); 
+        }
 
 	~Capture();
 
