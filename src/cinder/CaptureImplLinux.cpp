@@ -10,7 +10,7 @@
 
 namespace cinder {
 
-CaptureImplLinux::Device::Device( const std::string &deviceFile ):
+CaptureImplLinux::Device::Device(const std::string &deviceFile ):
 mDeviceFile( deviceFile ), mIsConnected( false )
 {
 	puts("open capture device");
@@ -32,29 +32,15 @@ bool CaptureImplLinux::Device::checkAvailable() const
 	return ! mName.empty();
 }
 
-CaptureImplLinux::CaptureImplLinux( int32_t width, int32_t height, const Capture::DeviceRef device ):
-mDeviceFileDescriptor( -1 ),
-mRunning( false ), mNewFrameAvailable( false ),
-mDevice( device )
+   
+bool CaptureImplLinux::connectDevice( int32_t width, int32_t height)
 {
-	puts("choose first");
-    // choose first
-	if ( !mDevice ) {
-		auto &devices = getDevices();
-		if ( devices.empty() ) {
-            puts("No device found");
-			throw CaptureExcInitFail();
-		} else {
-			mDevice = getDevices()[1];          // should be smarter to get a working one !!!!!
-		}
-	}
-    puts("zzzzzzz");
+
 	const char *name = mDevice->getUniqueId().c_str();
-    puts("xxxxx");
+    printf("device name=%s\n\n",name);
 	// implicty set to blocking io
 	mDeviceFileDescriptor = v4l2_open( name , O_RDWR );
-	puts("yyyyyyy");
-    if ( mDeviceFileDescriptor < 0 ) {
+	if ( mDeviceFileDescriptor < 0 ) {
         puts("too bad! can't open webcam");
 		throw CaptureExcInitFail();
 	}
@@ -99,8 +85,8 @@ mDevice( device )
 
 		if ( mRawBuffer[i].data == MAP_FAILED ) {
             puts("throw error!!!!");
-			throw CaptureExcInitFail();
-
+			//throw CaptureExcInitFail();
+            return false;
 		} else {
 			mSurfaces[i] = Surface::create( reinterpret_cast<unsigned  char*>( mRawBuffer[i].data ),
 											mWidth, mHeight, mWidth * 3,
@@ -111,7 +97,34 @@ mDevice( device )
 	}
 
 	dynamic_cast<CaptureImplLinux::Device*>( mDevice.get() )->setConnected();
+    return true;
 }
+
+CaptureImplLinux::CaptureImplLinux( int32_t width, int32_t height, const Capture::DeviceRef device ):
+mDeviceFileDescriptor( -1 ),
+mRunning( false ), mNewFrameAvailable( false ),
+mDevice( device )
+{
+	// choose first
+	if (mDevice) {
+        connectDevice(width, height);
+        return;
+    }
+    
+    auto &devices = getDevices();
+    if ( devices.empty() ) {
+        puts("No device found");
+        throw CaptureExcInitFail();
+		return;
+    }
+    
+    for(const auto& t: devices) {
+        mDevice = t;
+        if (connectDevice(width, height))
+            return;
+    }
+}
+ 
 
 CaptureImplLinux::~CaptureImplLinux()
 {
@@ -180,7 +193,6 @@ Surface8uRef CaptureImplLinux::getSurface() const
 
 const std::vector<Capture::DeviceRef>& CaptureImplLinux::getDevices( bool forceRefresh  )
 {
-	puts("@const std::vector<Capture::DeviceRef>& CaptureImplLinux::getDevices");
     static std::vector<Capture::DeviceRef>	devices;
 
 	if ( forceRefresh || devices.empty() ) {
@@ -195,7 +207,6 @@ const std::vector<Capture::DeviceRef>& CaptureImplLinux::getDevices( bool forceR
 		}
 
 	}
-    puts("going to leave");
 	return devices;
 }
 

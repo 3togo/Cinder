@@ -52,7 +52,7 @@ public:
 	gl::Texture2dRef	getTexture() const;
 
 	const Capture::DeviceRef getDevice() const { return mDevice; }
-
+    
 	static const std::vector<Capture::DeviceRef>&	getDevices( bool forceRefresh = false );
 
 	/** \class Device
@@ -84,7 +84,7 @@ public:
 	};
 
 private:
-	Capture::DeviceRef	mDevice;
+ 	Capture::DeviceRef	mDevice;
 	int 				mWidth = 0;
 	int 				mHeight = 0;
 	bool 				mCapturing = false;

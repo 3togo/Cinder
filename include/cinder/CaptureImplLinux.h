@@ -43,6 +43,7 @@ public:
 	int32_t getHeight() const { return mHeight; }
 
 	const Capture::DeviceRef getDevice() const { return mDevice; }
+    bool connectDevice( int32_t width, int32_t height);
 
 	static const std::vector<Capture::DeviceRef>& getDevices( bool forceRefresh = false );
 

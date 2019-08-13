@@ -47,7 +47,6 @@ namespace cinder {
 
 const vector<Capture::DeviceRef>& Capture::getDevices( bool forceRefresh )
 {	
-puts("@const vector<Capture::DeviceRef>& Capture::getDevices");
 #if defined( CINDER_COCOA )
 	return [CapturePlatformImpl getDevices:forceRefresh];
 #else
@@ -57,8 +56,7 @@ puts("@const vector<Capture::DeviceRef>& Capture::getDevices");
 
 Capture::DeviceRef Capture::findDeviceByName( const string &name )
 {
-	puts("@Capture::DeviceRef Capture::findDeviceByName");
-    for( const auto &dev : getDevices() ) {
+	for( const auto &dev : getDevices() ) {
 		if( dev->getName() == name )
 			return dev;
 	}
@@ -68,8 +66,7 @@ Capture::DeviceRef Capture::findDeviceByName( const string &name )
 
 Capture::DeviceRef Capture::findDeviceByNameContains( const string &nameFragment )
 {	
-	puts("@Capture::DeviceRef Capture::findDeviceByNameContains");
-    for( const auto &dev : getDevices() ) {
+	for( const auto &dev : getDevices() ) {
 		if( dev->getName().find( nameFragment ) != std::string::npos )
 			return dev;
 	}
@@ -79,7 +76,6 @@ Capture::DeviceRef Capture::findDeviceByNameContains( const string &nameFragment
 
 Capture::Capture( int32_t width, int32_t height, const DeviceRef device ) 
 {
-puts("@Capture::Capture( int32_t width, int32_t height, const DeviceRef device )");
 #if defined( CINDER_COCOA )
 	mImpl = [[::CapturePlatformImpl alloc] initWithDevice:device width:width height:height];
 #else
@@ -165,8 +161,6 @@ int32_t	Capture::getHeight() const {
 }
 
 const Capture::DeviceRef Capture::getDevice() const {
-    puts("@Capture::DeviceRef Capture::getDevice()");
-
 #if defined( CINDER_COCOA )
 
 	return [mImpl getDevice];
